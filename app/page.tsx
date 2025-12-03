@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Send, RotateCcw, Gamepad2, BookOpen, Rocket, Beaker, Leaf } from 'lucide-react'
+import { Send, RotateCcw, Gamepad2, BookOpen, Rocket, Beaker, Leaf, Code } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -79,6 +79,12 @@ const AGENTS: Agent[] = [
     description: 'Expert nature and environment specialist',
     icon: <Leaf className="w-4 h-4" />,
   },
+  {
+    id: '693027762bb6b2ddb363d791',
+    name: 'Computer Agent',
+    description: 'Expert computer science and technology specialist',
+    icon: <Code className="w-4 h-4" />,
+  },
 ]
 
 const getWelcomeMessage = (agentName: string): string => {
@@ -96,6 +102,9 @@ const getWelcomeMessage = (agentName: string): string => {
   }
   if (agentName === 'Nature Agent') {
     return "Welcome to the Natural World! I'm your guide to wildlife, ecosystems, plants, and environmental topics. Ask me about animals, habitats, conservation, or natural wonders. What aspect of nature captivates you?"
+  }
+  if (agentName === 'Computer Agent') {
+    return "Welcome to the Tech Hub! I'm your expert guide through programming, software, hardware, cybersecurity, and all things technology. Ask me about coding, systems, networks, or any computer science topic. What technology topic interests you?"
   }
   return 'Hi! How can I help you today?'
 }
