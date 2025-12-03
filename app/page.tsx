@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Send, RotateCcw, Gamepad2, BookOpen, Rocket, Beaker, Leaf, Code, Palmtree } from 'lucide-react'
+import { Send, RotateCcw, Gamepad2, BookOpen, Rocket, Beaker, Leaf, Code, Palmtree, Tv } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -91,6 +91,12 @@ const AGENTS: Agent[] = [
     description: 'Expert primatologist and monkey specialist',
     icon: <Palmtree className="w-4 h-4" />,
   },
+  {
+    id: '69303c1a6b01be7c2f9fe5bc',
+    name: 'Anime Agent',
+    description: 'Expert anime and manga specialist',
+    icon: <Tv className="w-4 h-4" />,
+  },
 ]
 
 const getWelcomeMessage = (agentName: string): string => {
@@ -114,6 +120,9 @@ const getWelcomeMessage = (agentName: string): string => {
   }
   if (agentName === 'Monkey Agent') {
     return "Welcome to the Primate Hub! I'm your expert guide to monkeys, apes, and primates worldwide. Ask me about species, behavior, habitats, evolution, or conservation efforts. What aspect of primates interests you?"
+  }
+  if (agentName === 'Anime Agent') {
+    return "Welcome to Anime Central! I'm your expert guide through anime, manga, and otaku culture. Ask me about series recommendations, studios, voice actors, or anything anime-related. What anime topic interests you?"
   }
   return 'Hi! How can I help you today?'
 }
