@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Send, RotateCcw, Gamepad2, BookOpen, Rocket, Beaker, Leaf, Code } from 'lucide-react'
+import { Send, RotateCcw, Gamepad2, BookOpen, Rocket, Beaker, Leaf, Code, Palmtree } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -85,6 +85,12 @@ const AGENTS: Agent[] = [
     description: 'Expert computer science and technology specialist',
     icon: <Code className="w-4 h-4" />,
   },
+  {
+    id: '6930336a2bb6b2ddb363db7e',
+    name: 'Monkey Agent',
+    description: 'Expert primatologist and monkey specialist',
+    icon: <Palmtree className="w-4 h-4" />,
+  },
 ]
 
 const getWelcomeMessage = (agentName: string): string => {
@@ -105,6 +111,9 @@ const getWelcomeMessage = (agentName: string): string => {
   }
   if (agentName === 'Computer Agent') {
     return "Welcome to the Tech Hub! I'm your expert guide through programming, software, hardware, cybersecurity, and all things technology. Ask me about coding, systems, networks, or any computer science topic. What technology topic interests you?"
+  }
+  if (agentName === 'Monkey Agent') {
+    return "Welcome to the Primate Hub! I'm your expert guide to monkeys, apes, and primates worldwide. Ask me about species, behavior, habitats, evolution, or conservation efforts. What aspect of primates interests you?"
   }
   return 'Hi! How can I help you today?'
 }
