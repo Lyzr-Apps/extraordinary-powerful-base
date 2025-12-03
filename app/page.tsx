@@ -1,11 +1,19 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Send, RotateCcw } from 'lucide-react'
+import { Send, RotateCcw, Gamepad2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu'
 
 interface Message {
   id: string
@@ -27,20 +35,48 @@ interface ChatResponse {
   raw_response?: string
 }
 
-const SAMPLE_MESSAGES: Message[] = [
+interface Agent {
+  id: string
+  name: string
+  description: string
+  icon: React.ReactNode
+}
+
+const AGENTS: Agent[] = [
   {
-    id: '1',
-    role: 'assistant',
-    content: 'Hi! How can I help you today?',
-    timestamp: new Date(Date.now() - 300000).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
+    id: '692fff4255706e8287914db6',
+    name: 'Chat Agent',
+    description: 'Friendly conversational assistant',
+    icon: null,
+  },
+  {
+    id: '693000af6faee4d469e87b04',
+    name: 'Gaming Agent',
+    description: 'Expert gaming specialist',
+    icon: <Gamepad2 className="w-4 h-4" />,
   },
 ]
 
+const getWelcomeMessage = (agentName: string): string => {
+  if (agentName === 'Gaming Agent') {
+    return "Welcome to Gaming Central! I'm here to discuss games, share strategies, and help with gaming recommendations. What's your gaming interest today?"
+  }
+  return 'Hi! How can I help you today?'
+}
+
 export default function HomePage() {
-  const [messages, setMessages] = useState<Message[]>(SAMPLE_MESSAGES)
+  const [currentAgent, setCurrentAgent] = useState<Agent>(AGENTS[0])
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      role: 'assistant',
+      content: getWelcomeMessage(AGENTS[0].name),
+      timestamp: new Date(Date.now() - 300000).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+    },
+  ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -54,6 +90,22 @@ export default function HomePage() {
   useEffect(() => {
     scrollToBottom()
   }, [messages])
+
+  const handleAgentChange = (agent: Agent) => {
+    setCurrentAgent(agent)
+    setMessages([
+      {
+        id: '1',
+        role: 'assistant',
+        content: getWelcomeMessage(agent.name),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+      },
+    ])
+    setInput('')
+  }
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -80,7 +132,7 @@ export default function HomePage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: input,
-          agent_id: '692fff4255706e8287914db6',
+          agent_id: currentAgent.id,
         }),
       })
 
@@ -124,7 +176,17 @@ export default function HomePage() {
   }
 
   const handleNewChat = () => {
-    setMessages(SAMPLE_MESSAGES)
+    setMessages([
+      {
+        id: '1',
+        role: 'assistant',
+        content: getWelcomeMessage(currentAgent.name),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+      },
+    ])
     setInput('')
   }
 
@@ -132,7 +194,44 @@ export default function HomePage() {
     <div className="flex flex-col h-screen bg-slate-50">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-gray-200 shadow-sm">
-        <h1 className="text-2xl font-bold text-gray-900">ChatBot</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-gray-900">ChatBot</h1>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-2 text-gray-700 hover:bg-gray-100"
+              >
+                {currentAgent.icon}
+                <span className="text-sm font-medium">{currentAgent.name}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuLabel>Select Agent</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {AGENTS.map((agent) => (
+                <DropdownMenuItem
+                  key={agent.id}
+                  onClick={() => handleAgentChange(agent)}
+                  className={
+                    currentAgent.id === agent.id ? 'bg-blue-50' : ''
+                  }
+                >
+                  <div className="flex items-center gap-2">
+                    {agent.icon}
+                    <div className="flex flex-col">
+                      <span className="font-medium text-sm">{agent.name}</span>
+                      <span className="text-xs text-gray-500">
+                        {agent.description}
+                      </span>
+                    </div>
+                  </div>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
         <Button
           onClick={handleNewChat}
           variant="outline"
