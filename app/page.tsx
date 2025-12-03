@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Send, RotateCcw, Gamepad2 } from 'lucide-react'
+import { Send, RotateCcw, Gamepad2, BookOpen } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -55,11 +55,20 @@ const AGENTS: Agent[] = [
     description: 'Expert gaming specialist',
     icon: <Gamepad2 className="w-4 h-4" />,
   },
+  {
+    id: '6930054c6b01be7c2f9fc838',
+    name: 'History Chat Agent',
+    description: 'Expert history specialist and educator',
+    icon: <BookOpen className="w-4 h-4" />,
+  },
 ]
 
 const getWelcomeMessage = (agentName: string): string => {
   if (agentName === 'Gaming Agent') {
     return "Welcome to Gaming Central! I'm here to discuss games, share strategies, and help with gaming recommendations. What's your gaming interest today?"
+  }
+  if (agentName === 'History Chat Agent') {
+    return "Welcome to History Hub! I'm your expert guide through time. Ask me about historical events, civilizations, famous figures, or any era of history. What historical topic interests you?"
   }
   return 'Hi! How can I help you today?'
 }
