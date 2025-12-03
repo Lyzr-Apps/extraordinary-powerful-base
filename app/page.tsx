@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Send, RotateCcw, Gamepad2, BookOpen } from 'lucide-react'
+import { Send, RotateCcw, Gamepad2, BookOpen, Rocket } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -61,6 +61,12 @@ const AGENTS: Agent[] = [
     description: 'Expert history specialist and educator',
     icon: <BookOpen className="w-4 h-4" />,
   },
+  {
+    id: '69300bfa6faee4d469e8898b',
+    name: 'Space Agent',
+    description: 'Expert space and astronomy specialist',
+    icon: <Rocket className="w-4 h-4" />,
+  },
 ]
 
 const getWelcomeMessage = (agentName: string): string => {
@@ -69,6 +75,9 @@ const getWelcomeMessage = (agentName: string): string => {
   }
   if (agentName === 'History Chat Agent') {
     return "Welcome to History Hub! I'm your expert guide through time. Ask me about historical events, civilizations, famous figures, or any era of history. What historical topic interests you?"
+  }
+  if (agentName === 'Space Agent') {
+    return "Welcome to the Cosmos! I'm your guide through the universe. Ask me about planets, stars, galaxies, space exploration, astronomy, and all things cosmic. What celestial topic fascinates you?"
   }
   return 'Hi! How can I help you today?'
 }
