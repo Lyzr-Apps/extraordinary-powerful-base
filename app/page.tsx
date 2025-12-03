@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { Send, RotateCcw, Gamepad2, BookOpen, Rocket } from 'lucide-react'
+import { Send, RotateCcw, Gamepad2, BookOpen, Rocket, Beaker, Leaf } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card } from '@/components/ui/card'
@@ -67,6 +67,18 @@ const AGENTS: Agent[] = [
     description: 'Expert space and astronomy specialist',
     icon: <Rocket className="w-4 h-4" />,
   },
+  {
+    id: '693011da2bb6b2ddb363ce7e',
+    name: 'Science Agent',
+    description: 'Expert science specialist across all disciplines',
+    icon: <Beaker className="w-4 h-4" />,
+  },
+  {
+    id: '69301b626b01be7c2f9fda99',
+    name: 'Nature Agent',
+    description: 'Expert nature and environment specialist',
+    icon: <Leaf className="w-4 h-4" />,
+  },
 ]
 
 const getWelcomeMessage = (agentName: string): string => {
@@ -78,6 +90,12 @@ const getWelcomeMessage = (agentName: string): string => {
   }
   if (agentName === 'Space Agent') {
     return "Welcome to the Cosmos! I'm your guide through the universe. Ask me about planets, stars, galaxies, space exploration, astronomy, and all things cosmic. What celestial topic fascinates you?"
+  }
+  if (agentName === 'Science Agent') {
+    return "Welcome to the Science Lab! I'm your guide through physics, chemistry, biology, and all scientific disciplines. Ask me about experiments, theories, discoveries, or how things work. What scientific topic intrigues you?"
+  }
+  if (agentName === 'Nature Agent') {
+    return "Welcome to the Natural World! I'm your guide to wildlife, ecosystems, plants, and environmental topics. Ask me about animals, habitats, conservation, or natural wonders. What aspect of nature captivates you?"
   }
   return 'Hi! How can I help you today?'
 }
